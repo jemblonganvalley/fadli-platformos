@@ -1,0 +1,53 @@
+
+{%liquid
+    assign success_delete = context.params.success_delete
+    assign error_delete = context.params.error_delete
+  %}
+
+
+<!-- IF SUCCESS DELETE -->
+{% if success_delete %}
+  <script>
+    alert("Berhasil delete data")
+    window.location.href = "/"
+  </script>
+{% endif %}
+
+<div class="w-screen min-h-screen bg-slate-100 flex flex-col justify-center items-center">
+
+  <form 
+    action="/list/create"
+    method="POST"
+    x-show="open === true"
+    class="w-full max-w-[300px] bg-white p-6 flex flex-col gap-4 fixed left-4 bottom-4 shadow-lg"
+    >
+      <label for="title">Input List Title</label>
+      <input type="text" placeholder="masukan title" class="h-12 px-4 border-[1px]" id="title" name="title" required >
+      <button type="submit" class="h-12 bg-orange-500 w-full text-white rounded-full">submit</button>
+  </form>
+
+  {% graphql lists = 'index' | fetch: 'records' | fetch: 'results' %}
+
+  <section class="mt-8 w-full flex flex-col pb-40 justify-center items-center">
+  {% if lists.size > 0 %}
+    <ol class="mt-10 w-full items-center flex gap-4 flex-col">
+      {% for list in lists %}
+        <li class="w-full max-w-[300px] shadow-md hover:shadow-lg">
+          <a href="/details?id={{list.id}}" class="bg-white flex flex-col gap-4 w-full max-w-[500px] p-4 group">
+            <p class="capitalize">{{list.title}}</p>
+            <small>{{list.created_at}}</small>
+
+            <small class="hidden group-hover:flex">
+              click to detail
+            </small>
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <p>There are no lists yet. You can create the first one!</p>
+  {% endif %}
+  </section>
+</div>
+
+

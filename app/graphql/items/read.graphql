@@ -1,0 +1,15 @@
+query read($list_id : String!) {
+  records(
+    per_page: 10
+    filter: {
+      table: {value: "item"}
+      properties: {name: "list_id",value: $list_id}
+    } 
+  ){
+    results {
+      id
+      content: property(name: "content")
+      list_id: property(name: "list_id")
+    }
+  }
+}

@@ -1,0 +1,15 @@
+query read($id: ID!) {
+  records(
+    per_page: 1
+    filter: {
+      table: { value: "list" }
+      id: { value: $id }
+    }
+  ) {
+    results {
+      id
+      title: property(name: "title")
+      created_at
+    }
+  }
+}

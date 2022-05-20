@@ -1,0 +1,17 @@
+mutation create($list_id : String!, $content : String!) {
+    record_create(
+        record : {
+            table : "item",
+            properties : [
+                {name : "list_id", value : $list_id}
+                {name : "content", value : $content}
+
+            ]
+        }
+    ) {
+        id
+        list_id : property(name : "list_id")
+        content : property(name : "content")
+        created_at
+    }
+}

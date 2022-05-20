@@ -1,0 +1,26 @@
+---
+    method : get
+---
+
+{%
+    liquid
+    assign list_id = context.params.list_id
+    assign content = context.params.content    
+    graphql result = "items/create", list_id : list_id, content : content
+    assign items = result | fetch : "record_create"
+%}
+
+
+{% if items.id %}
+    <script>
+    alert("Berhasil tambah content")
+    window.location.href = "/details/?id={{list_id}}"
+    </script>
+    
+{% else %}
+    <script>
+        alert("Terjadi kesalahan")
+        window.location.href = "/details/?id={{list_id}}"
+
+    </script>
+{% endif %}

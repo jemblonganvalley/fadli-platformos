@@ -1,0 +1,18 @@
+---
+    method : post
+---
+
+{%liquid
+    assign id = context.params.id
+    graphql item = 'list/delete', id : id | fetch : 'record_delete'
+%}
+
+{% if item.id %}
+    <script>
+        window.location.href = `/?success_delete=true`
+    </script>
+{% else if %}
+    <script>
+        window.location.href = `/?error_delete={{item.error}}`
+    </script>
+{% endif %}

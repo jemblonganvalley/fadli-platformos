@@ -1,0 +1,39 @@
+{%liquid
+    assign id = context.params.id
+    graphql list = 'list/read', id: id | fetch: 'records' | fetch: 'results' | first
+    graphql item_data = "items/read", list_id : id | fetch: 'records' | fetch: 'results'
+%}
+
+<div class="w-screen min-h-screen p-10 flex flex-col gap-4 justify-center items-center">
+
+    <div class="fixed top-4 right-0 h-12 bg-orange-500 text-white px-8 flex justify-center items-center rounded-l-full shadow-lg">
+        <h1 class="text-4xl font-light capitalize"> {{ list.title }} </h1>
+    </div>
+
+    <form action="/list/delete?id={{id}}" method="post" class="fixed top-4 left-4 flex gap-2 items-center">
+        <button class="h-10 bg-red-500 px-6 text-white" type="submit">delete</button>
+        <a href="/">
+            <button type="button" class="h-10 bg-gray-300 px-6 text-white" type="submit">back</button>
+        </a>
+    </form>
+
+
+        <form action="/items/create" class="flex flex-col gap-2 max-w-[500px] bg-white p-6 fixed bottom-4 left-4 rounded-lg shadow-lg">
+            <input type="text" hidden value="{{id}}" id="list_id" name="list_id">
+            <label for="content">Add item</label>
+            <input type="text" id="content" name="content" class="border-[1px] h-12 px-4">
+            <button type="submit" class="h-12 bg-orange-500 text-white rounded-full">submit</button>
+        </form>
+
+
+    <section>
+        {% for e in item_data %}
+            <div>
+                <p>{{ e.content }}</p>
+            </div>
+        {% endfor %}
+    </section>
+
+</div>
+
+

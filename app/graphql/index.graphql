@@ -1,0 +1,17 @@
+query index {
+  records(
+    per_page: 10
+    filter: {
+      table: { value: "list" }
+      properties: { name: "title", exists: true }
+    }
+    sort: { updated_at: { order: DESC } }
+  ) {
+    results {
+      id
+      title: property(name: "title")
+      created_at
+    }
+  }
+}
+

@@ -1,0 +1,31 @@
+---
+    method : post
+---
+
+{%liquid
+    assign title = context.params.title
+    graphql result = 'list/create', title : title
+    assign list = result | fetch : 'record_create'
+%}
+
+{% if list.id %}
+    <div class="w-screen h-screen flex justify-center items-center bg-slate-100">
+        <div class="p-6 bg-white shadow-md flex flex-col gap-6 w-[200px] rounded-lg">
+            <p>Success add list</p>
+            <button onclick="handleBack()" class="h-10 bg-gray-300 text-white rounded-full">
+                ok
+            </button>
+        </div>
+    </div>
+    <script>
+        const handleBack = ()=>{
+            window.location.href = `/`
+        }
+    </script>
+
+    {% else %}
+        <h1>Terjadi kesalahan</h1>
+        <p>
+            {{result.error}}
+        </p>
+{% endif %}
